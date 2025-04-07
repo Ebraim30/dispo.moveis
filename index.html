@@ -22,7 +22,7 @@
         </div>
 
         <div class="container-info">
-          <h1>{{ product_title }}</h1>
+          <h1>{{ product_title + "" + brand}}</h1>
           <p v-if="inStock >10">in stock: {{inStock}}</p>
           <p v-else-if="inStock <=10 && inStock >1">almost of out</p>
           <p v-else>out of stock</p>
@@ -31,11 +31,13 @@
               {{ detail }}
             </li>
           </ul>
-          <div v-for="variant in variants" :key="variant.id" @mouseover="changeImage(variant.image)">
+          <div v-for="variant in variants" :key="variant.id" @mouseover="changeImage(variant.image)"
+            class="color-circle"
+            :style="{ backgroundColor: variant.color }">
             
             {{ variant.color }}
           </div>
-          <button class="button" v-on:click="addToCart">Add to cart</button>
+          <button class="button" @click="addToCart" :disabled="inStock < 1">Add to cart</button>
 
         </div>
       </div>
@@ -59,8 +61,9 @@
       }
       return {
         product_title: ref('T-Shirt'),
+        brand: 'Marconyu',
         image,
-        inStock: ref(100),
+        inStock: ref(9),
         details: ['50% cotton', '30% polyester', '20% woll'],
         variants: [{ id: 1, color: 'blue', image:"assets/image/t-shirt-blue.png" }, { id: 2, color: 'green', image:"assets/image/t-shirt-green.png" }],
         cart,
